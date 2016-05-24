@@ -4,9 +4,11 @@ this REGEX:
 
 /^.*ENC\[PKCS7,.**\]
 
+Accepts 1 or more arguments
+
 ## USAGE:
 ```
-validate_decrypted_content($key[password])
+validate_decrypted_content($key[password],[$key2[password2]],[$key3[password3],...])
 ```
 
 
