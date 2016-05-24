@@ -5,17 +5,19 @@ module Puppet::Parser::Functions
     ENDHEREDOC
              ) do |args|
       # argument count checking
-      if args.length > 1
-        raise Puppet::ParseError, 'validate_decrypted_content(): requires only one argument, a string'
+      unless args.length > 0 then
+        raise Puppet::ParseError, ("validate_decrypted_content(): wrong number of arguments(#{args.length}); must be > 0")
       end
 
-      string = args[0].to_s
-      # Check to see if our string matches the password regex, if so throw a Puppet Error
-      # The regex is the pattern that matches hiera-eyaml notation (ENC[PKCS7,....])
-      if string =~ /^.*ENC\[PKCS7,.*\]/
-        raise Puppet::ParseError, "validate_decrypted_content(): input was not decrypted"
-      else
-        # nothing to see here, the passed string was decrypted, or atleast didn't match the ENC pattern
+      args.each do |arg|
+        string = arg.to_s
+        # Check to see if our string matches the password regex, if so throw a Puppet Error
+        # The regex is the pattern that matches hiera-eyaml notation (ENC[PKCS7,....])
+        if string =~ /^.*ENC\[PKCS7,.*\]/
+          raise Puppet::ParseError, "validate_decrypted_content(): input was not decrypted"
+        else
+          # nothing to see here, the passed string was decrypted, or atleast didn't match the ENC pattern
+        end
       end
     end
 end
